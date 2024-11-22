@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Power of Math!</title>
+    <!-- Styling for the client UI -->
+    <style>
+    h1 {
+        color: #F28500;
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size: 80px;
+		margin-left: 20px;
+        }
+	body {
+        background-color: #524686;
+        }
+    label {
+        color: #a56dbb;
+        font-family: system-ui;
+        font-size: 30px;
+        margin-left: 20px;
+		margin-top: 20px;
+        }
+
+button {
+    background-color: #53cef0;
+    border: none;
+    color: #f6f7f8;
+    text-align: center;
+    font-family: system-ui;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 30px;
+    margin-top: 20px;
+    width: 140px;
+    padding: 10px;
+    border-radius: 4px;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+
+button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+button span:after {
+    content: '\00bb'; /* Unicode for right arrow */
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -10px;
+    transition: 0.5s;
+}
+
+button:hover {
+    background-color: #f4f6f8; /* Slightly darker green on hover */
+    border-color: #185bba;
+    color: #83d2e8;
+    transform: scale(1.05);
+    box-shadow: 0px 4px 8px rgba(122, 184, 200, 0.2);
+}
+
+button:hover span {
+    padding-right: 15px; /* Moves the text slightly to the left */
+}
+
+button:hover span:after {
+    opacity: 1;
+    right: 0; /* Arrow appears next to the text */
+}
+
+
+	 input {
+        color: #fbfdfe;
+        font-family: system-ui;
+        font-size: 20px;
+        margin-left: 10px;
+		margin-top: 20px;
+		width: 100px;
+        background-color: #000000;
+        }
+
+    .showcase video{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 1;
+        }
+    h1{
+        position: relative;
+        z-index: 15;
+    }
+    form{
+        position: relative;
+        z-index: 15;
+    }
+
+    </style>
+    <script>
+        // callAPI function that takes the base and exponent numbers as parameters
+        var callAPI = (base,exponent)=>{
+            // instantiate a headers object
+            var myHeaders = new Headers();
+            // add content type header to object
+            myHeaders.append("Content-Type", "application/json");
+            // using built in JSON utility package turn object to string and store in a variable
+            var raw = JSON.stringify({"base":base,"exponent":exponent});
+            // create a JSON object with parameters for API call and store in a variable
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            // make API call with parameters and use promises to get response
+            fetch("https://kyzhy8oinb.execute-api.ap-south-1.amazonaws.com/dev", requestOptions)
+            .then(response => response.text())
+            .then(result => alert(JSON.parse(result).body))
+            .catch(error => console.log('error', error));
+        }
+
+
+    </script>
+</head>
+<body>
+    <h1>To The Power Of Math!</h1>
+	<form>
+        <label><strong>Base number:</strong></b></label>
+        <input type="text" id="base">
+        <label><strong>...to the power of:</strong></label>
+        <input type="text" id="exponent">
+        <!-- set button onClick method to call function we defined passing input values as parameters -->
+        <button type="button" onclick="callAPI(document.getElementById('base').value,document.getElementById('exponent').value)">CALCULATE</button>
+    </form>
+    <section class="showcase">
+        <video src="https://cdn.pixabay.com/video/2016/08/22/4760-179739327_large.mp4" muted loop autoplay></video>
+    </section>
+    
+
+    
+    
+</body>
+</html>
